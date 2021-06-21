@@ -37,12 +37,20 @@ class UserAccountManager(BaseUserManager):
         return user
 
 
+def phone_validate(value):
+    if len(value) != 11:
+        raise ValueError('Phone number must be an 11 character')
+    if not value.isnumeric():
+        raise ValueError('Phone number must be a number')
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=120, unique=True)
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     email = models.EmailField(max_length=255, blank=True, null=True)
-    phone_number = models.CharField(max_length=15, blank=True)
+    phone_number = models.CharField(
+        max_length=15, blank=True, validators=[phone_validate])
     work_phone_number = models.CharField(max_length=15, blank=True)
     telegram_id = models.CharField(max_length=60, blank=True)
     instagram_id = models.CharField(max_length=60, blank=True)
