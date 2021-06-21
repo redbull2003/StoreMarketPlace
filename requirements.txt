@@ -9,7 +9,11 @@ coverage==5.2.1
 cryptography==3.4.7
 decorator==5.0.9
 Django==3.1.1
+django-admin-honeypot==1.1.0
 django-cors-headers==3.5.0
+django-defender==0.9.0
+django-filter==2.4.0
+django-jet==1.0.8
 django-ranged-response==0.2.0
 django-simple-captcha==0.5.14
 djangorestframework==3.11.1
@@ -27,6 +31,7 @@ PyJWT==2.1.0
 python-dateutil==2.8.1
 python-decouple==3.4
 pytz==2020.1
+redis==3.5.3
 requests==2.25.1
 s3transfer==0.4.2
 shortuuid==1.0.1
