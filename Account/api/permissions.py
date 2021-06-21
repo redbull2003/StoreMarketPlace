@@ -32,21 +32,6 @@ class HasGroupPermission(permissions.BasePermission):
                     required_groups]) or (request.user and request.user.is_staff)
 
 
-# class IsStaffOrOwner(permissions.BasePermission):
-#     """
-#     Allows access only to authenticated users.
-#     """
-#     message = 'You must be owner'
-
-#     def has_object_permissions(self, request, view, obj):
-#         if request.method in permissions.SAFE_METHODS:
-#             return True
-
-#         return bool(
-#             request.user.is_admin or request.user == obj.owner
-#             )
-
-
 class IsStaff(permissions.BasePermission):
     """
     Allows access only to authenticated users.

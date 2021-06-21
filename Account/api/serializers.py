@@ -20,8 +20,10 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = (
-            'permission',
-            'password'
+            'username',
+            'email',
+            'phone_number',
+            'password',
         )
         extra_kwargs = {'password': {'write_only': True}}
 

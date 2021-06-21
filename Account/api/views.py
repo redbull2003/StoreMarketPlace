@@ -69,13 +69,13 @@ class UsersListView(ListAPIView):
 class UserRetrieveView(RetrieveAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
-    permission_classes = (IsStaff,)
+    permission_classes = (IsAuthenticated,)
 
 
 class UserUpdateView(UpdateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserUpdateSerializer
-    permission_classes = (IsStaff,)
+    permission_classes = (IsAuthenticated,)
 
 
 class UserDeleteView(DestroyAPIView):
