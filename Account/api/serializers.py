@@ -21,6 +21,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         model = User
         exclude = (
             'permission',
+            'password'
         )
         extra_kwargs = {'password': {'write_only': True}}
 
@@ -89,3 +90,13 @@ class UserLoginSerializer(serializers.ModelSerializer):
                 raise ValidationError('رمز عبور اشتباه است')
             data['token'] = 'some random token'
         return data
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+        Serializer for password change endpoint
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)

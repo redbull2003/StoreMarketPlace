@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import (
     AllowAny,
+    IsAuthenticated,
 )
 
 # Local import
@@ -23,12 +24,13 @@ from .serializers import (
     UserLoginSerializer,
     UserSerializer,
     UserUpdateSerializer,
+    ChangePasswordSerializer
 )
 from .permissions import (
     IsStaff,
 )
 
-class SignUpUser(CreateAPIView):
+class UserSignUpView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = CreateNewUserSerializer
 
@@ -80,3 +82,34 @@ class UserDeleteView(DestroyAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     permission_classes = (IsStaff,)
+
+
+class UserChangePassword(UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get('old_password')):
+                return Response({'old_password': ['Wrong Password']},
+                 status=status.HTTP_400_BAD_REQUEST)
+            
+            self.object.set_password(serializer.data.get('new_password'))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+            return Response(response)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
