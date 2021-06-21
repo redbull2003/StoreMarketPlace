@@ -1,4 +1,6 @@
 # Standard library import
+from django.contrib.messages.api import success
+from django.http import request
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -91,18 +93,22 @@ class PasswordResetView(auth_views.PasswordResetView):
     email_template_name = ''
     success_url = reverse_lazy('account:done')
 
-
-class PasswordDoneView(auth_views.PasswordResetDoneView):
-    template_name = ''
+    def form_valid(self, form):
+        messages.success(request, 'ایمیل بازیابی رمز عبور به شما ارسال شد', 'success')
+        return super().form_valid(form)
 
 
 class PasswordConfirmView(auth_views.PasswordResetConfirmView):
     template_name = ''
     success_url = reverse_lazy('account:complete')
 
-
-class PasswordCompleteView(auth_views.PasswordResetCompleteView):
-    template_name = ''
+    def form_valid(self, form):
+        messages.success(request, 'رمز عبور شما با موفیقت تغییر یافت', 'success')
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(request, 'دوباره تلاش کنید', 'danger')
+        return super().form_invalid(form)
 
 
 class UserProfile(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
