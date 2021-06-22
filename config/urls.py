@@ -2,6 +2,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.admin.sites import AdminSite
+from django.conf import settings
+from django.conf.urls.static import static
 
 # Third-party import
 from rest_framework_simplejwt.views import (
@@ -26,6 +28,10 @@ urlpatterns = [
     path('api/user/', include('Account.api.urls', namespace='api_account')),
     path('api/product/', include('Product.api.urls', namespace='api_product')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 AdminSite.site_header = 'Administration'
 AdminSite.index_title = 'Shop App'

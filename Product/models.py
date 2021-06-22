@@ -1,6 +1,5 @@
 # Standard librarry import
 from django.db import models
-from django.db.models import fields
 from django.utils.text import slugify
 from django.urls import reverse
 from django.utils.html import format_html
@@ -26,7 +25,7 @@ class Product(TimeStamp):
     amount = models.PositiveIntegerField(null=True, blank=True)
     discount = models.PositiveIntegerField(null=True, blank=True)
     total_price = models.PositiveIntegerField(null=True, blank=True)
-    image = models.FileField(upload_to='files/image_product', null=True, blank=True)
+    image = models.FileField(upload_to='files/image_product/%Y-%m-%d', default='1.jpg')
     sell = models.PositiveIntegerField(default=0)
 
     class Meta(TimeStamp.Meta):
@@ -52,5 +51,5 @@ class Product(TimeStamp):
         return self.total_price
 
     def image_thumbnail(self):
-        return format_html("<img src='{}' width=77>".format(self.image.url))
+        return format_html('<img src="{}" width=77>'.format(self.image.url))
     image_thumbnail.short_description = 'image'
