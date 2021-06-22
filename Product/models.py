@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import fields
 from django.utils.text import slugify
 from django.urls import reverse
+from django.utils.html import format_html
 
 
 class TimeStamp(models.Model):
@@ -21,7 +22,12 @@ class Product(TimeStamp):
     slug = models.SlugField(null=True, blank=True, unique=True)
     description = models.TextField(blank=True)
     available = models.BooleanField(default=True)
-    price = models.IntegerField(null=True, blank=True)
+    unit_price = models.PositiveIntegerField(null=True, blank=True)
+    amount = models.PositiveIntegerField(null=True, blank=True)
+    discount = models.PositiveIntegerField(null=True, blank=True)
+    total_price = models.PositiveIntegerField(null=True, blank=True)
+    image = models.FileField(upload_to='files/image_product', null=True, blank=True)
+    sell = models.PositiveIntegerField(default=0)
 
     class Meta(TimeStamp.Meta):
         ordering = ('-created',)
@@ -35,3 +41,16 @@ class Product(TimeStamp):
     
     def get_absolute_url(self):
         return reverse('product:detail', args=[self.slug, self.id])
+    
+    @property
+    def get_total_price(self):
+        if not self.discount:
+            return self.unit_price
+        elif self.discount:
+            total = (self.discount * self.unit_price) / 100
+            return int(self.unit_price - total)
+        return self.total_price
+
+    def image_thumbnail(self):
+        return format_html("<img src='{}' width=77>".format(self.image.url))
+    image_thumbnail.short_description = 'image'

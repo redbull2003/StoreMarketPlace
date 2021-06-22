@@ -4,7 +4,7 @@ from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
     UpdateAPIView,
-    DestroyAPIView
+    DestroyAPIView,
 ) 
 from rest_framework.permissions import IsAdminUser
 from rest_framework import filters

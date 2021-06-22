@@ -7,7 +7,18 @@ from django.utils.translation import ngettext
 from .models import Product
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'available', 'created', 'updated')
+    list_display = (
+        'title',
+        'unit_price',
+        'amount',
+        'discount',
+        'total_price',
+        'available',
+        'created',
+        'updated',
+        'sell',
+        'image_thumbnail',
+    )
     list_filter = ('available',)
     search_fields = ('title', 'description')
 
