@@ -1,4 +1,5 @@
 # Third-party import
+from django.http import request
 from rest_framework.generics import (
     CreateAPIView,
     ListAPIView,
@@ -52,13 +53,13 @@ class UsersListView(ListAPIView):
 class UserRetrieveView(RetrieveAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsStaff,)
 
 
 class UserUpdateView(UpdateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserUpdateSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsStaff,)
 
 
 class UserDeleteView(DestroyAPIView):

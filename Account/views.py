@@ -39,6 +39,7 @@ class SignUp(View):
             data = form.cleaned_data
             user = User.objects.create_user(
                 username=data['username'],
+                email=data['email'],
                 password=data['password'],
             )
             user.save()

@@ -22,6 +22,7 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('captcha/', include('captcha.urls')),
+    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('api/user/', include('Account.api.urls', namespace='api_account')),
     path('api/product/', include('Product.api.urls', namespace='api_product')),
 ]

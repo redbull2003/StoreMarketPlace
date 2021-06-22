@@ -25,7 +25,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ('username', 'email')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -53,12 +53,15 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('username', 'email')
 
 
 class SignUpForm(forms.Form):
     username = forms.CharField(
         error_messages=message, label='نام کاربری', widget=forms.TextInput()
+        )
+    email = forms.EmailField(
+        error_messages=message, label='ادرس ایمیل', widget=forms.TextInput()
         )
     password = forms.CharField(
         error_messages={'required': 'this field is required'}, 
@@ -76,6 +79,14 @@ class SignUpForm(forms.Form):
         if qs.exists():
             raise forms.ValidationError(' نام کاربری وارد شده قبلا ثبت شده است')
         return username
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        qs = User.objects.get(email=email)
+
+        if qs.exists():
+            raise forms.ValidationError('ایمیل وارد شده قبلا ثبت شده است')
+        return email
     
     def clean_confirm_password(self):
         password = self.cleaned_data.get('password')

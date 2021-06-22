@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django_filters',
     'admin_honeypot',
     'defender',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [

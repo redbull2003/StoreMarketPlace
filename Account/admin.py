@@ -13,6 +13,7 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
     list_display = (
         'username', 
+        'email',
         'is_active', 
         'is_admin', 
         'is_superuser',
@@ -28,7 +29,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2'),
+            'fields': ('username', 'email', 'password1', 'password2'),
         }),
     )
     search_fields = ('username',)

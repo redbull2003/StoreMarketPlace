@@ -9,26 +9,36 @@ from django.contrib.auth.models import (
 )
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.urls import reverse
+from django.core.mail import send_mail
+
+# Third-party import
+from django_rest_passwordreset.signals import reset_password_token_created  
 
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, username, password):
+    def create_user(self, username, email, password):
 
         if not username:
             raise ValueError(_('You must provide an username'))
+        
+        if not email:
+            raise ValueError(_('You must provide an email address'))
 
-        user = self.model(username=username)
+        user = self.model(username=username, email = self.normalize_email(email))
         user.set_password(password)
         user.save(using=self._db)
         return user
         
-    def create_superuser(self, username, password):
+    def create_superuser(self, username, email, password):
 
         """
         Creates and saves a superuser with the given password.
         """
         user = self.create_user(
             username,
+            email,
             password,
         )
         user.is_admin = True
@@ -83,7 +93,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ('password',)
+    REQUIRED_FIELDS = ('email',)
 
     def get_first_name(self):
         return self.first_name
@@ -130,3 +140,17 @@ def user_profile_save(sender, **kwargs):
         user_profile.save()
 
 post_save.connect(user_profile_save, sender=User)
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    email_plaintext_message = "{}?token={}".format(
+        reverse('password_reset:reset-password-request'),
+        reset_password_token.key)
+
+    send_mail(
+        'بازیابی رمز عبور',
+        email_plaintext_message,
+        'shayan.aimoradii@gmail.com',
+        [reset_password_token.user.email]
+    )

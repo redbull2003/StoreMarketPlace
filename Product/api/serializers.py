@@ -6,8 +6,8 @@ from rest_framework import serializers
 from Product.models import Product
 
 class ProductSerializer(serializers.ModelSerializer):
-    title = serializers.HyperlinkedIdentityField(view_name='api_product:retrieve')
-
+    id = serializers.HyperlinkedIdentityField(view_name='api_product:retrieve')
+    
     class Meta:
         model = Product
-        fields = ('__all__')
+        fields = '__all__'  
