@@ -19,7 +19,7 @@ class TimeStamp(models.Model):
 
 
 class Product(TimeStamp):
-    title = models.CharField(max_length=50, blank=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
     slug = models.SlugField(null=True, blank=True, unique=True)
     description = tinymce_models.HTMLField()
     available = models.BooleanField(default=True)

@@ -12,7 +12,6 @@ from rest_framework_simplejwt.views import (
 )
 
 
-
 urlpatterns = [
     path('secret-panel/', admin.site.urls),
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
@@ -21,6 +20,7 @@ urlpatterns = [
     path('account/', include('Account.urls', namespace='account')),
     path('', include('Product.urls', namespace='product')),
     path('', include('Contact.urls', namespace='contact')),
+    path('', include('Cart.urls', namespace='cart')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/product/', include('Product.api.urls', namespace='api_product')),
     path('api/user/', include('Account.api.urls', namespace='api_account')),
     path('api/contact/', include('Contact.api.urls', namespace='api_contact')),
+    path('api/cart/', include('Cart.api.urls', namespace='api_cart')),
 ]
 
 if settings.DEBUG:

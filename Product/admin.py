@@ -20,6 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
         'updated',
         'sell',
         'image_thumbnail',
+        'id',
     )
     list_display_links = ('__str__', 'image_thumbnail')
     list_filter = ('available',)
