@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Local App
     'Account.apps.AccountConfig',
     'Product.apps.ProductConfig',
+    'Contact.apps.ContactConfig',
 
     # Third-Party App
     'rest_framework',
@@ -186,3 +187,8 @@ EMAIL_PORT = 587
 
 # Admin-defender
 DEFENDER_COOLOFF_TIME = 86400
+
+# Security
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True

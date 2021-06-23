@@ -1,5 +1,5 @@
 # Standard library import
-from django.urls import path
+from django.urls import path, include
 
 # Local import
 from . import views
