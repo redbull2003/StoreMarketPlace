@@ -6,9 +6,11 @@ from django.utils.translation import ngettext
 # Local import
 from .models import Product
 
+
+@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        'title',
+        '__str__',
         'unit_price',
         'amount',
         'discount',
@@ -19,12 +21,14 @@ class ProductAdmin(admin.ModelAdmin):
         'sell',
         'image_thumbnail',
     )
+    list_display_links = ('__str__', 'image_thumbnail')
     list_filter = ('available',)
     search_fields = ('title', 'description')
     date_hierarchy = 'created'
     ordering = ('-sell',)
     empty_value_display = '???'
     list_editable = ('unit_price', 'discount', 'total_price')
+    readonly_fields = ('sell',)
 
     actions = ('make_available', 'make_unavailable')
 
@@ -43,6 +47,3 @@ class ProductAdmin(admin.ModelAdmin):
             '%d products were successfully marked as unavailable.',
             updated,
         ) % updated, messages.SUCCESS)
-
-
-admin.site.register(Product, ProductAdmin)
