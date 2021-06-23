@@ -21,6 +21,10 @@ class ProductAdmin(admin.ModelAdmin):
     )
     list_filter = ('available',)
     search_fields = ('title', 'description')
+    date_hierarchy = 'created'
+    ordering = ('-sell',)
+    empty_value_display = '???'
+    list_editable = ('unit_price', 'discount', 'total_price')
 
     actions = ('make_available', 'make_unavailable')
 

@@ -4,6 +4,8 @@ from django.utils.text import slugify
 from django.urls import reverse
 from django.utils.html import format_html
 
+# Third-party import
+from tinymce import models as tinymce_models
 
 class TimeStamp(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -19,7 +21,7 @@ class TimeStamp(models.Model):
 class Product(TimeStamp):
     title = models.CharField(max_length=50, blank=True)
     slug = models.SlugField(null=True, blank=True, unique=True)
-    description = models.TextField(blank=True)
+    description =tinymce_models.HTMLField()
     available = models.BooleanField(default=True)
     unit_price = models.PositiveIntegerField(null=True, blank=True)
     amount = models.PositiveIntegerField(null=True, blank=True)
