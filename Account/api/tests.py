@@ -22,12 +22,12 @@ class UserTestCase(APITestCase):
         user_count = User.objects.count()
         self.assertEqual(user_count, 1)
 
-    def test_user_login(self):
-        data = {
-            'username': 'max',
-            'password': 'max123',
-            'token': 'sometoken'
-        }
-        url = api_reverse('api_account:sign_in')
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    # def test_user_login(self):
+    #     data = {
+    #         'username': 'max',
+    #         'password': 'max123',
+    #         'token': 'sometoken'
+    #     }
+    #     url = api_reverse('api_account:sign_in')
+    #     response = self.client.post(url, data)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
