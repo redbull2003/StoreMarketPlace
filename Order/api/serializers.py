@@ -6,12 +6,6 @@ from Order.models import Order, OrderItem
 from Account.models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'phone_number')
-
-
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.username', read_only=True)
 
@@ -21,7 +15,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    # user = UserSerializer()
+    user = serializers.CharField(source='user.username', read_only=True)
     # order = OrderSerializer()
 
     class Meta:

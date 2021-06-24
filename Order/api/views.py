@@ -1,3 +1,6 @@
+# Standard library import
+from django.shortcuts import redirect
+
 # Third-party import
 from rest_framework import status
 from rest_framework.response import Response
@@ -17,6 +20,7 @@ from .serializers import (
 )
 from .permissions import IsOwner, IsAdminUser
 from Order.models import Order, OrderItem
+from Cart.models import Cart
 
 class OrderListView(ListAPIView):
     queryset = OrderItem.objects.all()
@@ -28,6 +32,10 @@ class OrderRetrieveView(RetrieveAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (IsOwner,)
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        return Order.objects.get(pk=pk)
 
 
 class OrderCreateView(CreateAPIView):

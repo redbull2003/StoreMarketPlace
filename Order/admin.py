@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # Local import
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Coupon
 
 
 class OrderItemAdmin(admin.TabularInline):
@@ -19,3 +19,4 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(OrderItem)
+admin.site.register(Coupon)

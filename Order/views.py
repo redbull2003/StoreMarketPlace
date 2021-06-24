@@ -2,10 +2,12 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from  django.contrib import messages
+from django.contrib import messages
+from django.utils import timezone
 
 # Local import
-from .models import Order, OrderItem
+from .models import Coupon, Order, OrderItem
+from .forms import CouponForm
 from Cart.models import Cart
 
 
@@ -25,3 +27,22 @@ def create_order(request):
         OrderItem.objects.create(user_id=request.user.id, order_id=order.id,
         product_id=c.product_id, quantity=c.quantity)
     return redirect('order:detail', order.id)
+
+
+@login_required(login_url='account:sign-in')
+def coupon_order(request, id):
+    if request.method == 'POST':
+        form = CouponForm()
+        if form.is_valid():
+            data = form.cleaned_data
+            time = timezone.now()
+            try:
+                coupon = Coupon.objects.get(
+                    code=data['code'], start__lte=time, end__gte=time, active=True)
+            except Coupon.DoesNotExist:
+                messages.error(request, 'کد تخفیف اشتباه است یا نقضی شده است', 'danger')
+                return redirect(request.META.get('HTTP_REFERER'))
+            order = Order.objects.get(id=id)
+            order.discount = coupon.discount
+            order.save()
+        return redirect(request.META.get('HTTP_REFERER')) 
