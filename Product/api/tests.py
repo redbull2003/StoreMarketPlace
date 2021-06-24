@@ -49,3 +49,9 @@ class ProductTestCase(APITestCase):
         url = api_reverse('api_product:update', args=[7])
         response = self.client.put(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_product(self):
+        data = {'title': 'test1', 'description': 'test'}
+        url = api_reverse('api_product:delete', args=[7])
+        response = self.client.delete(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
