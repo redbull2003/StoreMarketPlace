@@ -1,9 +1,4 @@
-# Standard library import
-from django.shortcuts import redirect
-
 # Third-party import
-from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
@@ -12,6 +7,7 @@ from rest_framework.generics import (
     DestroyAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.mixins import ListModelMixin
 
 # Local import
 from .serializers import (
@@ -20,7 +16,7 @@ from .serializers import (
 )
 from .permissions import IsOwner, IsAdminUser
 from Order.models import Order, OrderItem
-from Cart.models import Cart
+
 
 class OrderListView(ListAPIView):
     queryset = OrderItem.objects.all()
@@ -47,13 +43,16 @@ class OrderCreateView(CreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class OrderItemCreateView(CreateAPIView):
+class OrderItemCreateView(ListModelMixin, CreateAPIView):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
     permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 class OrderUpdateView(UpdateAPIView):

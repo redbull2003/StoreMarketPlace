@@ -15,4 +15,4 @@ class TestSignUpForm(TestCase):
     def test_invalid_data(self):
         form = SignUpForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 3)
+        self.assertEqual(len(form.errors), 4)

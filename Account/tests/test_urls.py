@@ -5,20 +5,6 @@ from Account import views
 
 
 class TestUrls(SimpleTestCase):
-    def test_create_new_user(self):
-        url = reverse('api_account:sign_up')
-        self.assertEqual(resolve(url).func.view_class, api_views.SignUpUser)
-
-    def test_sign_in_user(self):
-        url = reverse('api_account:sign_in')
-        self.assertEqual(resolve(url).func.view_class, api_views.UserLoginView)
-
-    def test_black_list(self):
-        url = reverse('api_account:black_list')
-        self.assertEqual(
-            resolve(url).func.view_class, api_views.BlacklistTokenUpdateView
-        )
-    
     def test_sign_up(self):
         url = reverse('account:sign_up')
         self.assertEqual(resolve(url).func.view_class, views.SignUp)

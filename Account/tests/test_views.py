@@ -1,7 +1,13 @@
+# Standard library import
+from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.urls import reverse
-from Account.models import Profile, UserAccount
+
+# Local import
 from Account.forms import SignUpForm
+from Account.models import Profile
+
+User = get_user_model()
 
 
 class TestView(TestCase):
@@ -21,5 +27,5 @@ class TestView(TestCase):
             'confirm_password': 'jack'
         })
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(UserAccount.objects.count(), 1)
+        self.assertEqual(User.objects.count(), 1)
         self.assertEqual(Profile.objects.count(), 1)
