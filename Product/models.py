@@ -6,6 +6,7 @@ from django.utils.html import format_html
 
 # Third-party import
 from tinymce import models as tinymce_models
+from rest_framework.reverse import reverse as api_reverse
 
 
 class Category(models.Model):
@@ -55,6 +56,9 @@ class Product(TimeStamp):
     
     def get_absolute_url(self):
         return reverse('product:detail', args=[self.slug, self.id])
+
+    def get_api_url(self, request=None):
+        return api_reverse('api_product:retrieve', kwargs={'pk': self.pk}, request=request)
     
     @property
     def get_total_price(self):

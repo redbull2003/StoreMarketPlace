@@ -1,7 +1,3 @@
-# Standard library import
-from django.http import HttpResponse
-import json
-
 # Third-party import
 from rest_framework.generics import (
     CreateAPIView,
@@ -10,6 +6,7 @@ from rest_framework.generics import (
     UpdateAPIView,
     DestroyAPIView,
 ) 
+from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAdminUser
 from rest_framework import filters
 
@@ -24,15 +21,23 @@ class ProductListView(ListAPIView):
     search_fields = ('title', 'description')
     ordering_fields = ('price',)
 
+    # def post(self, request, *args, **kwargs):
+    #     return self.create(request, *args, **kwargs)
+
+    def get_serializer_context(self, *args, **kwargs):
+        return {'request': self.request}
+
 
 class ProductRetrieveView(RetrieveAPIView):
     queryset = Product.objects.filter(available=True)
-    serializer_class = ProductSerializer
 
-    # def get_serializer(self, *args, **kwargs):
-    #     serializer_class = ProductSerializer
-    #     kwargs['context'] = self.get_serializer_context()
-    #     return serializer_class(*args, **kwargs)
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = ProductSerializer
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
+
+    def get_serializer_context(self, *args, **kwargs):
+        return {'request': self.request}
 
 
 class ProductCreateView(CreateAPIView):

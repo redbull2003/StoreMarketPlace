@@ -1,11 +1,10 @@
 # Third-party import
-from django.db.models import fields
 from rest_framework import serializers
 
 # Local import
 from Cart.models import Cart
 from Product.models import Product
-from Account.models import User
+
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:

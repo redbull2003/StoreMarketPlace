@@ -21,6 +21,7 @@ urlpatterns = [
     path('', include('Product.urls', namespace='product')),
     path('', include('Contact.urls', namespace='contact')),
     path('', include('Cart.urls', namespace='cart')),
+    path('', include('Order.urls', namespace='order')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -31,6 +32,7 @@ urlpatterns = [
     path('api/user/', include('Account.api.urls', namespace='api_account')),
     path('api/contact/', include('Contact.api.urls', namespace='api_contact')),
     path('api/cart/', include('Cart.api.urls', namespace='api_cart')),
+    path('api/order/', include('Order.api.urls', namespace='api_order')),
 ]
 
 if settings.DEBUG:
