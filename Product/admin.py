@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.utils.translation import ngettext
 
 # Local import
-from .models import Product
+from .models import Product, Category
 
 
 @admin.register(Product)
@@ -18,6 +18,7 @@ class ProductAdmin(admin.ModelAdmin):
         'available',
         'created',
         'updated',
+        'category_to_str',
         'sell',
         'image_thumbnail',
         'id',
@@ -48,3 +49,6 @@ class ProductAdmin(admin.ModelAdmin):
             '%d products were successfully marked as unavailable.',
             updated,
         ) % updated, messages.SUCCESS)
+
+
+admin.site.register(Category)

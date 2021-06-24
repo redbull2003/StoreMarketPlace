@@ -7,6 +7,18 @@ from django.utils.html import format_html
 # Third-party import
 from tinymce import models as tinymce_models
 
+
+class Category(models.Model):
+    title = models.CharField(max_length=50, blank=True)
+    slug = models.SlugField(null=True, blank=True, unique=True)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return self.title
+
+
 class TimeStamp(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
@@ -29,6 +41,7 @@ class Product(TimeStamp):
     total_price = models.PositiveIntegerField(null=True, blank=True)
     image = models.FileField(upload_to='files/image_product/%Y-%m-%d', default='1.jpg')
     sell = models.PositiveIntegerField(default=0)
+    category = models.ManyToManyField(Category, blank=True)
 
     class Meta(TimeStamp.Meta):
         ordering = ('-created',)
@@ -55,3 +68,8 @@ class Product(TimeStamp):
     def image_thumbnail(self):
         return format_html('<img src="{}" width=77>'.format(self.image.url))
     image_thumbnail.short_description = 'image'
+
+    def category_to_str(self):
+        return ', '.join([category.title for category in self.category.all()])
+    
+    category_to_str.short_description = 'Category/Categories'
