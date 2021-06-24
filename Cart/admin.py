@@ -7,7 +7,7 @@ from .models import Cart
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'product', 'created', 'quantity')
-    search_fields = ('product',)
+    # list_display = ('user', 'product', 'created', 'quantity')
+    # search_fields = ('product',)
     date_hierarchy = 'created'
     ordering = ('created',)

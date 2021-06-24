@@ -2,6 +2,7 @@
 from rest_framework import serializers
 
 # Local import
+from Product.api.serializers import ProductSerializer
 from Order.models import Order, OrderItem
 from Account.models import User
 
@@ -16,7 +17,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderItemSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.username', read_only=True)
-    # order = OrderSerializer()
 
     class Meta:
         model = OrderItem
